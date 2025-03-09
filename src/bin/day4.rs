@@ -69,10 +69,10 @@ fn search_vertical(band: &[Vec<char>]) -> i32 {
             band.get(1).and_then(|row| row.get(column)) == M &&
             band.get(2).and_then(|row| row.get(column)) == A &&
             band.get(3).and_then(|row| row.get(column)) == S)
-            || (band.get(0).and_then(|row| row.get(column)) == X &&
-            band.get(1).and_then(|row| row.get(column)) == M &&
-            band.get(2).and_then(|row| row.get(column)) == A &&
-            band.get(3).and_then(|row| row.get(column)) == S)
+            || (band.get(3).and_then(|row| row.get(column)) == X &&
+            band.get(2).and_then(|row| row.get(column)) == M &&
+            band.get(1).and_then(|row| row.get(column)) == A &&
+            band.get(0).and_then(|row| row.get(column)) == S)
         {
             count += 1;
         }
@@ -90,18 +90,18 @@ fn search_diagonal(band: &[Vec<char>]) -> i32 {
             band.get(1).and_then(|row| row.get(column+1)) == M &&
             band.get(2).and_then(|row| row.get(column+2)) == A &&
             band.get(3).and_then(|row| row.get(column+3)) == S)
-            || (band.get(0).and_then(|row| row.get(column)) == X &&
-            band.get(1).and_then(|row| row.get(column+1)) == M &&
-            band.get(2).and_then(|row| row.get(column+2)) == A &&
-            band.get(3).and_then(|row| row.get(column+3)) == S)
+            || (band.get(0).and_then(|row| row.get(column+3)) == X &&
+            band.get(1).and_then(|row| row.get(column+2)) == M &&
+            band.get(2).and_then(|row| row.get(column+1)) == A &&
+            band.get(3).and_then(|row| row.get(column)) == S)
             || (band.get(3).and_then(|row| row.get(column)) == X &&
             band.get(2).and_then(|row| row.get(column+1)) == M &&
             band.get(1).and_then(|row| row.get(column+2)) == A &&
             band.get(0).and_then(|row| row.get(column+3)) == S)
-            || (band.get(3).and_then(|row| row.get(column)) == X &&
-            band.get(2).and_then(|row| row.get(column+1)) == M &&
-            band.get(1).and_then(|row| row.get(column+2)) == A &&
-            band.get(0).and_then(|row| row.get(column+3)) == S)
+            || (band.get(3).and_then(|row| row.get(column+3)) == X &&
+            band.get(2).and_then(|row| row.get(column+2)) == M &&
+            band.get(1).and_then(|row| row.get(column+1)) == A &&
+            band.get(0).and_then(|row| row.get(column)) == S)
         {
             count += 1;
         }

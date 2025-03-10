@@ -44,16 +44,17 @@ const S: Option<&char> = Some(&'S');
 fn search_horizontal(line: &Vec<char>) -> i32 {
     let mut count = 0;
     for window in line.windows(4) {
-        if (window.get(0) == X &&
-           window.get(1) == M &&
-           window.get(2) == A &&
-           window.get(3) == S)
-        ||
-           (window.get(3) == X &&
-           window.get(2) == M &&
-           window.get(1) == A &&
-           window.get(0) == S)
-        {
+        if (
+            window.get(0) == X &&
+            window.get(1) == M &&
+            window.get(2) == A &&
+            window.get(3) == S
+        ) || (
+            window.get(3) == X &&
+            window.get(2) == M &&
+            window.get(1) == A &&
+            window.get(0) == S
+        ) {
             count += 1;
         }
     }
@@ -65,15 +66,18 @@ fn search_vertical(band: &[Vec<char>]) -> i32 {
     let mut count = 0;
     let len = band.get(0).unwrap_or(&vec![]).len();
     for column in 0..len {        
-        if (band.get(0).and_then(|row| row.get(column)) == X &&
+        if ( // top to bottom
+            band.get(0).and_then(|row| row.get(column)) == X &&
             band.get(1).and_then(|row| row.get(column)) == M &&
             band.get(2).and_then(|row| row.get(column)) == A &&
-            band.get(3).and_then(|row| row.get(column)) == S)
-            || (band.get(3).and_then(|row| row.get(column)) == X &&
+            band.get(3).and_then(|row| row.get(column)) == S
+        ) || (
+            // bottom to top
+            band.get(3).and_then(|row| row.get(column)) == X &&
             band.get(2).and_then(|row| row.get(column)) == M &&
             band.get(1).and_then(|row| row.get(column)) == A &&
-            band.get(0).and_then(|row| row.get(column)) == S)
-        {
+            band.get(0).and_then(|row| row.get(column)) == S
+        ) {
             count += 1;
         }
     }
@@ -85,23 +89,31 @@ fn search_diagonal(band: &[Vec<char>]) -> i32 {
     let mut count = 0;
     let len = band.get(0).unwrap_or(&vec![]).len();
 
-    for column in 0..(len-3) {        
-        if (band.get(0).and_then(|row| row.get(column)) == X &&
+    for column in 0..len {        
+        if ( 
+            // NE-SW
+            band.get(0).and_then(|row| row.get(column+0)) == X &&
             band.get(1).and_then(|row| row.get(column+1)) == M &&
             band.get(2).and_then(|row| row.get(column+2)) == A &&
-            band.get(3).and_then(|row| row.get(column+3)) == S)
-            || (band.get(0).and_then(|row| row.get(column+3)) == X &&
+            band.get(3).and_then(|row| row.get(column+3)) == S
+            ) || (
+            // NW-SE
+            band.get(0).and_then(|row| row.get(column+3)) == X &&
             band.get(1).and_then(|row| row.get(column+2)) == M &&
             band.get(2).and_then(|row| row.get(column+1)) == A &&
-            band.get(3).and_then(|row| row.get(column)) == S)
-            || (band.get(3).and_then(|row| row.get(column)) == X &&
+            band.get(3).and_then(|row| row.get(column+0)) == S
+            ) || (
+            // SE-NW
+            band.get(3).and_then(|row| row.get(column+0)) == X &&
             band.get(2).and_then(|row| row.get(column+1)) == M &&
             band.get(1).and_then(|row| row.get(column+2)) == A &&
-            band.get(0).and_then(|row| row.get(column+3)) == S)
-            || (band.get(3).and_then(|row| row.get(column+3)) == X &&
+            band.get(0).and_then(|row| row.get(column+3)) == S
+            ) || (
+            // SW-NE
+            band.get(3).and_then(|row| row.get(column+3)) == X &&
             band.get(2).and_then(|row| row.get(column+2)) == M &&
             band.get(1).and_then(|row| row.get(column+1)) == A &&
-            band.get(0).and_then(|row| row.get(column)) == S)
+            band.get(0).and_then(|row| row.get(column+0)) == S)
         {
             count += 1;
         }

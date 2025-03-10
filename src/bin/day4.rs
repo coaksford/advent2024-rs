@@ -1,3 +1,4 @@
+#![allow(clippy::get_first)]
 use anyhow::Result;
 use std::fs::File;
 use std::io::Read;
@@ -7,13 +8,22 @@ fn main() -> Result<()> {
     let grid = get_input()?;
 
     // horizontal can be done linewise.
-    let horizontal: i32 = grid.iter().map(search_horizontal).sum();
+    let horizontal: i32 = grid
+        .iter()
+        .map(search_horizontal)
+        .sum();
 
     // vertical has to be done in bands of 4 lines.
-    let vertical: i32 = grid.windows(4).map(search_vertical).sum();
+    let vertical: i32 = grid
+        .windows(4)
+        .map(search_vertical)
+        .sum();
 
     // diagonal also has to be done in bands of 4 lines.
-    let diagonal: i32 = grid.windows(4).map(search_diagonal).sum();
+    let diagonal: i32 = grid
+        .windows(4)
+        .map(search_diagonal)
+        .sum();
 
     let total = horizontal + vertical + diagonal;
 
@@ -26,7 +36,7 @@ fn main() -> Result<()> {
 }
 
 fn get_input() -> Result<Vec<Vec<char>>> {
-    let mut input = File::open("sample-day4.txt")?;
+    let mut input = File::open("input-day4.txt")?;
     let mut text = String::new();
     input.read_to_string(&mut text)?;
     let lines = text.lines();
@@ -64,7 +74,10 @@ fn search_horizontal(line: &Vec<char>) -> i32 {
 
 fn search_vertical(band: &[Vec<char>]) -> i32 {
     let mut count = 0;
-    let len = band.get(0).unwrap_or(&vec![]).len();
+    let len = band
+        .get(3)
+        .unwrap_or(&vec![])
+        .len();
     for column in 0..len {        
         if ( // top to bottom
             band.get(0).and_then(|row| row.get(column)) == X &&
@@ -87,7 +100,10 @@ fn search_vertical(band: &[Vec<char>]) -> i32 {
 
 fn search_diagonal(band: &[Vec<char>]) -> i32 {
     let mut count = 0;
-    let len = band.get(0).unwrap_or(&vec![]).len();
+    let len = band
+        .get(3)
+        .unwrap_or(&vec![])
+        .len();
 
     for column in 0..len {        
         if  // NE-SW: first index ascending, second ascending
@@ -136,7 +152,12 @@ mod tests {
 
     #[test]
     fn diagonal() {
-        let test = |grid: Vec<Vec<char>>| grid.windows(4).map(search_diagonal).sum::<i32>();
+        let test = |grid: Vec<Vec<char>>| {
+            grid
+                .windows(4)
+                .map(search_diagonal)
+                .sum::<i32>()
+        };
 
         let grid_nwse = vec![
             vec!['X', ' ', ' ', ' '],
@@ -183,7 +204,12 @@ mod tests {
 
     #[test]
     fn vertical() {
-        let test = |grid: Vec<Vec<char>>| grid.windows(4).map(search_vertical).sum::<i32>();
+        let test = |grid: Vec<Vec<char>>| {
+            grid
+                .windows(4)
+                .map(search_vertical)
+                .sum::<i32>()
+        };
 
         let grid = vec![
             vec!['X', 'M', 'A', 'S'],
@@ -198,7 +224,12 @@ mod tests {
 
     #[test]
     fn horizontal() {
-        let test = |grid: Vec<Vec<char>>| grid.iter().map(search_horizontal).sum::<i32>();
+        let test = |grid: Vec<Vec<char>>| {
+            grid
+                .iter()
+                .map(search_horizontal)
+                .sum::<i32>()
+        };
 
         let grid = vec![
             vec!['X', 'M', 'A', 'S'],
